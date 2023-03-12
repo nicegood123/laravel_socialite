@@ -102,15 +102,15 @@ class LoginController extends Controller
     {
         $user = User::where('email', $data->email)->first();
 
+
         if(!$user) {
             $user = new User();
             $user->name = $data->name;
             $user->email = $data->email;
-            $user->provider_id = $data->provider_id;
+            $user->provider_id = $data->getId();
             $user->avatar = $data->avatar;
             $user->save();
-
-            Auth::login($user);
         }
+        Auth::login($user);
      }
 }
