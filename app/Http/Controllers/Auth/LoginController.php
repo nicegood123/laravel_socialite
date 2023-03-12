@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -48,7 +50,12 @@ class LoginController extends Controller
     // Google Login Callback
     public function handleGoogleCallback()
     {
-        $user = Socialite::driver('google')->user();
+        $user = Socialite::driver('google')->stateless()->user();
+
+        $this->_registerOrLoginUser($user);
+
+        // Return to home after login
+        return redirect()->route('home');
 
         // $user->token;
     }
@@ -62,7 +69,12 @@ class LoginController extends Controller
     // Facebook Login Callback
     public function handleFacebookCallback()
     {
-        $user = Socialite::driver('facebook')->user();
+        $user = Socialite::driver('facebook')->stateless()->user();
+
+        $this->_registerOrLoginUser($user);
+
+        // Return to home after login
+        return redirect()->route('home');
 
         // $user->token;
     }
@@ -76,8 +88,29 @@ class LoginController extends Controller
     // Github Login Callback
     public function handleGithubCallback()
     {
-        $user = Socialite::driver('github')->user();
+        $user = Socialite::driver('github')->stateless()->user();
+
+        $this->_registerOrLoginUser($user);
+
+        // Return to home after login
+        return redirect()->route('home');
 
         // $user->token;
     }
+
+    protected function _registerOrLoginUser($data)
+    {
+        $user = User::where('email', $data->email)->first();
+
+        if(!$user) {
+            $user = new User();
+            $user->name = $data->name;
+            $user->email = $data->email;
+            $user->provider_id = $data->provider_id;
+            $user->avatar = $data->avatar;
+            $user->save();
+
+            Auth::login($user);
+        }
+     }
 }

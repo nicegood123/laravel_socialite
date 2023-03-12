@@ -13,13 +13,18 @@
 
                             <div class="row text-center">
                                 <div class="col-sm-12 mb-1">
-                                    <a href="{{ route('login.google') }}" class="btn btn-danger btn-block">Login with Google</a>
+                                    <a href="{{ route('login.google') }}">
+                                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
+                                            alt="">
+                                    </a>
                                 </div>
                                 <div class="col-sm-12 mb-1">
-                                    <a href="{{ route('login.facebook') }}" class="btn btn-primary btn-block">Login with Facegook</a>
+                                    <a href="{{ route('login.facebook') }}" class="btn btn-primary btn-block">Login with
+                                        Facegook</a>
                                 </div>
                                 <div class="col-sm-12 mb-2">
-                                    <a href="{{ route('login.github') }}" class="btn btn-dark btn-block">Login with Github</a>
+                                    <a href="{{ route('login.github') }}" class="btn btn-dark btn-block">Login with
+                                        Github</a>
                                 </div>
                             </div>
 
